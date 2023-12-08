@@ -31,24 +31,25 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        var dt = Time.deltaTime;    // store deltaTime in a local var so we don't have to waste resources constantly getting it
+        var dt = Time.deltaTime; // store deltaTime in a local var so we don't have to waste resources constantly getting it
+        var dtFriction = friction * dt;
 
         // camera arrow key movement
-        var vDir = BoolToInt(Input.GetKey(forward)) - BoolToInt(Input.GetKey(backward));    // gets a -1, 0, 1 value, 1=forward, -1=backward
-        var hDir = BoolToInt(Input.GetKey(right)) - BoolToInt(Input.GetKey(left));          // gets a -1, 0, 1 value, 1=right, -1=left
+        var vDir = BoolToInt(Input.GetKey(forward)) - BoolToInt(Input.GetKey(backward)); // gets a -1, 0, 1 value, 1=forward, -1=backward
+        var hDir = BoolToInt(Input.GetKey(right)) - BoolToInt(Input.GetKey(left)); // gets a -1, 0, 1 value, 1=right, -1=left
         var adjustedMoveSpeed = moveSpeed; //* (transform.position.y / 15);
 
-        vSpeed += vDir != 0 ? friction * vDir : friction * -Math.Sign(vSpeed);  // smoothly increases/decreases forward/backward speed when holding a movement key
-        vSpeed = Math.Clamp(vSpeed, -adjustedMoveSpeed, adjustedMoveSpeed);     // keeps speed within moveSpeed boundaries
+        vSpeed += vDir != 0 ? dtFriction * vDir : dtFriction * -Math.Sign(vSpeed); // smoothly increases/decreases forward/backward speed when holding a movement key
+        vSpeed = Math.Clamp(vSpeed, -adjustedMoveSpeed, adjustedMoveSpeed); // keeps speed within moveSpeed boundaries
         var forwardVec = dt * vSpeed * Vector3.forward;
 
-        hSpeed += hDir != 0 ? friction * hDir : friction * -Math.Sign(hSpeed);  // same as above, but for l/r movement
+        hSpeed += hDir != 0 ? dtFriction * hDir : dtFriction * -Math.Sign(hSpeed); // same as above, but for l/r movement
         hSpeed = Math.Clamp(hSpeed, -adjustedMoveSpeed, adjustedMoveSpeed);
         var rightVec = dt * hSpeed * Vector3.right;
 
         transform.Translate(forwardVec, Space.Self);
         transform.Translate(rightVec, Space.Self);
-        transform.Translate(Vector3.up * -Input.mouseScrollDelta);  // scroll movement for height
+        transform.Translate(Vector3.up * -Input.mouseScrollDelta); // scroll movement for height
 
         KeepWithinBoundaries(transform.position, dt, xMin, xMax, yMin, yMax, zMin, zMax);
 
@@ -56,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
         var hRotation = new Vector2(0, rotation.y);
         cameraTrans.eulerAngles = rotation * lookSpeed; // rotates the camera in accordance with mouse movement
-        transform.eulerAngles = hRotation * lookSpeed;  // rotates the player object in accordance with horizontal mouse movement so that the collision box's angle isn't changing to help with collision
+        transform.eulerAngles = hRotation * lookSpeed; // rotates the player object in accordance with horizontal mouse movement so that the collision box's angle isn't changing to help with collision
     }
 
     int BoolToInt(bool toConvert) => toConvert == true ? 1 : 0;
@@ -81,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         // sets the y component of the vector to within the yMin - yMax range
         var yCoord = pos.y > yMin ? pos.y : yMin + dt;
         yCoord = pos.y < yMax ? yCoord : yMax - dt;
-        
+
         // sets the z component of the vector to within the zMin - zMax range
         var zCoord = pos.z > zMin ? pos.z : zMin + dt;
         zCoord = pos.z < zMax ? zCoord : zMax - dt;
