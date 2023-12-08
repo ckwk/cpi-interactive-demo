@@ -194,6 +194,15 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
+          time: 0.18921477
+          value: 0.18921477
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
           time: 1
           value: 1
           inSlope: 1
@@ -484,7 +493,7 @@ MonoBehaviour:
   active: 1
   normalBias:
     m_OverrideState: 1
-    m_Value: 0.33
+    m_Value: 0.2
   viewBias:
     m_OverrideState: 1
     m_Value: 0

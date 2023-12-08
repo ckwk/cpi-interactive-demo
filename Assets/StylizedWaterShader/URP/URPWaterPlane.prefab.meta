@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9fdee121df6c9874c998e09eacdc6893
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 87062
+  packageName: Definitive Stylized Water
+  packageVersion: 2
+  assetPath: Assets/StylizedWaterShader/URP/URPWaterPlane.prefab
+  uploadId: 446866
