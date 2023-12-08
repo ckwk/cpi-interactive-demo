@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -13,8 +10,8 @@ public class DebugUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var dtInt = Time.deltaTime;
-        frameTimeCounter.text = "Frame Time: " + (dtInt * 1000).ToString() + " ms";
-        fpsCounter.text = "FPS: " + (1.0 / dtInt).ToString();
+        var dt = Time.deltaTime;
+        frameTimeCounter.text = "Frame Time: " + (dt * 1000).ToString() + " ms";
+        fpsCounter.text = "FPS: " + (1.0 / dt).ToString();
     }
 }
