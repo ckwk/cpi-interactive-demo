@@ -1,62 +1,67 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
     // movement vars
-    public float moveSpeed = 10;
-    float vSpeed = 0;
-    float hSpeed = 0;
+    [SerializeField]
+    bool is3D;
 
     [SerializeField]
-    float friction = 0.1f,
+    float lookSpeed = 3,
+        moveSpeed = 10,
+        friction = 0.1f,
         xMin,
         xMax,
         yMin,
         yMax,
         zMin,
         zMax;
-    KeyCode left = KeyCode.LeftArrow,
-        right = KeyCode.RightArrow,
-        forward = KeyCode.UpArrow,
-        backward = KeyCode.DownArrow;
+
+    Controls controls;
+    InputAction move;
 
     // camera vars
     [SerializeField]
     Transform cameraTrans;
-    public float lookSpeed = 3;
     Vector2 rotation;
+
+    // Awake, OnEnable, and OnDisable are required by the InputSystem library
+    void Awake()
+    {
+        controls = new Controls();
+    }
+
+    void OnEnable()
+    {
+        controls.Enable();
+        move = controls.Player.Move;
+        move.Enable();
+    }
+
+    void OnDisable()
+    {
+        controls.Disable();
+        move.Disable();
+    }
 
     void Update()
     {
         var dt = Time.deltaTime; // store deltaTime in a local var so we don't have to waste resources constantly getting it
-        var dtFriction = friction * dt;
+        var moveVec = move.ReadValue<Vector2>();
+        var moveDir = is3D ? new Vector3(moveVec.x, 0, moveVec.y) : (Vector3)moveVec; // swap between 2d or 3d coordinates depending on is3D
 
-        // camera arrow key movement
-        var vDir = BoolToInt(Input.GetKey(forward)) - BoolToInt(Input.GetKey(backward)); // gets a -1, 0, 1 value, 1=forward, -1=backward
-        var hDir = BoolToInt(Input.GetKey(right)) - BoolToInt(Input.GetKey(left)); // gets a -1, 0, 1 value, 1=right, -1=left
-        var adjustedMoveSpeed = moveSpeed; //* (transform.position.y / 15);
-
-        vSpeed += vDir != 0 ? dtFriction * vDir : dtFriction * -Math.Sign(vSpeed); // smoothly increases/decreases forward/backward speed when holding a movement key
-        vSpeed = Math.Clamp(vSpeed, -adjustedMoveSpeed, adjustedMoveSpeed); // keeps speed within moveSpeed boundaries
-        var forwardVec = dt * vSpeed * Vector3.forward;
-
-        hSpeed += hDir != 0 ? dtFriction * hDir : dtFriction * -Math.Sign(hSpeed); // same as above, but for l/r movement
-        hSpeed = Math.Clamp(hSpeed, -adjustedMoveSpeed, adjustedMoveSpeed);
-        var rightVec = dt * hSpeed * Vector3.right;
-
-        transform.Translate(forwardVec, Space.Self);
-        transform.Translate(rightVec, Space.Self);
+        transform.Translate(moveDir * dt * moveSpeed, Space.Self); // WASD movement
         transform.Translate(Vector3.up * -Input.mouseScrollDelta); // scroll movement for height
-
         KeepWithinBoundaries(transform.position, dt, xMin, xMax, yMin, yMax, zMin, zMax);
 
         // mouselook
-        rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+        rotation +=
+            new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * BoolToInt(is3D); // adjusts rotation based on mouse movement when in 3D
         var hRotation = new Vector2(0, rotation.y);
-        cameraTrans.eulerAngles = rotation * lookSpeed; // rotates the camera in accordance with mouse movement
+        var camRotation = rotation * lookSpeed;
+        cameraTrans.eulerAngles = new Vector3(Math.Clamp(camRotation.x, 0, 80), camRotation.y); // clamp camera rotation to not be crazy
         transform.eulerAngles = hRotation * lookSpeed; // rotates the player object in accordance with horizontal mouse movement so that the collision box's angle isn't changing to help with collision
     }
 
