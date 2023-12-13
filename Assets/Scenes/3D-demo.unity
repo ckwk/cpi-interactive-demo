@@ -32784,7 +32784,7 @@ PrefabInstance:
     - target: {fileID: 48867899643352519, guid: a8f120a9c7d64fb4ab9cfd81782d3527,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -51.42153
+      value: -51.67153
       objectReference: {fileID: 0}
     - target: {fileID: 48867899643352519, guid: a8f120a9c7d64fb4ab9cfd81782d3527,
         type: 3}
@@ -32794,7 +32794,7 @@ PrefabInstance:
     - target: {fileID: 48867899643352519, guid: a8f120a9c7d64fb4ab9cfd81782d3527,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -851.6072
+      value: -851.3572
       objectReference: {fileID: 0}
     - target: {fileID: 48867899643352519, guid: a8f120a9c7d64fb4ab9cfd81782d3527,
         type: 3}
@@ -38296,7 +38296,6 @@ MonoBehaviour:
   is3D: 1
   lookSpeed: 1
   moveSpeed: 25
-  friction: 80
   xMin: 0
   xMax: 100
   yMin: 7

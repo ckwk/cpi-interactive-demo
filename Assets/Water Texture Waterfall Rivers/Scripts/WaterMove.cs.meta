@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 597710333e194404f8708d11967fc529
+timeCreated: 1598033418
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 180552
+  packageName: Water Textures Waterfalls & Rivers
+  packageVersion: 1.0
+  assetPath: Assets/Water Texture Waterfall Rivers/Scripts/WaterMove.cs
+  uploadId: 394048
