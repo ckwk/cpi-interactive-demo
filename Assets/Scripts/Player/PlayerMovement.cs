@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        var dt = Time.deltaTime; // store deltaTime in a local var so we don't have to waste resources constantly getting it
+        var dt = Time.deltaTime; // store deltaTime for optimization
         var intIs3D = BoolToInt(is3D); // store is3D in an int for optimization
 
         // movement
@@ -68,13 +68,11 @@ public class PlayerMovement : MonoBehaviour
         );
 
         // mouselook
-        rotation +=
-            new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * BoolToInt(is3D); // adjusts rotation based on mouse movement when in 3D
-        var hRotation = new Vector2(0, rotation.y);
+        rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * intIs3D; // adjusts rotation based on mouse movement when in 3D
         var camRotation = rotation * lookSpeed;
 
-        cameraTrans.eulerAngles = new Vector3(Math.Clamp(camRotation.x, 0, 80), camRotation.y); // clamp camera rotation to not be crazy
-        transform.eulerAngles = hRotation * lookSpeed; // rotates the player object in accordance with horizontal mouse movement so that the collision box's angle isn't changing to help with collision
+        cameraTrans.eulerAngles = new Vector2(Math.Clamp(camRotation.x, 0, 80), camRotation.y); // clamp camera rotation to not be crazy
+        transform.eulerAngles = new Vector2(0, rotation.y) * lookSpeed; // rotates the player object in accordance with horizontal mouse movement so that the collision box's angle isn't changing to help with collision
     }
 
     int BoolToInt(bool toConvert) => toConvert == true ? 1 : 0;

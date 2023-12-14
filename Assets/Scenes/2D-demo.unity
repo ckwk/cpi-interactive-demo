@@ -1419,7 +1419,12 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Tilde : show / hide overlay
 
-        3 : 3D scene'
+        3 : 3D scene
+
+        WASD / Arrow
+        Keys : move
+
+        Scroll : zoom'
       objectReference: {fileID: 0}
     - target: {fileID: 4207656285687191397, guid: 7ce2bcf2fae81e14b8c54705d2fb7965,
         type: 3}
