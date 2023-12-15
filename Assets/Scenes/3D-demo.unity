@@ -37843,7 +37843,7 @@ MonoBehaviour:
   yMax: 20
   zMin: 0
   zMax: 100
-  cameraTrans: {fileID: 330585546}
+  cameraObject: {fileID: 330585543}
 --- !u!136 &2146626704
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -37974,6 +37974,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 291125221}
     m_Modifications:
+    - target: {fileID: 1907669032820733911, guid: 7ce2bcf2fae81e14b8c54705d2fb7965,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -925.4732
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907669032820733911, guid: 7ce2bcf2fae81e14b8c54705d2fb7965,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 455.58704
+      objectReference: {fileID: 0}
     - target: {fileID: 1954931580267107561, guid: 7ce2bcf2fae81e14b8c54705d2fb7965,
         type: 3}
       propertyPath: m_Pivot.x
@@ -38073,6 +38083,23 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534861820511128728, guid: 7ce2bcf2fae81e14b8c54705d2fb7965,
+        type: 3}
+      propertyPath: m_text
+      value: 'Tilde : show / hide overlay
+
+        2 : 2D scene
+
+        WASD / Arrow
+        Keys : move
+
+        Scroll : change height'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534861820511128728, guid: 7ce2bcf2fae81e14b8c54705d2fb7965,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4207656285687191397, guid: 7ce2bcf2fae81e14b8c54705d2fb7965,
         type: 3}

@@ -23,13 +23,17 @@ public class PlayerMovement : MonoBehaviour
 
     // camera vars
     [SerializeField]
+    GameObject cameraObject;
     Transform cameraTrans;
+    Camera cameraCam;
     Vector2 rotation;
 
     // Awake, OnEnable, and OnDisable are required by the InputSystem library
     void Awake()
     {
         controls = new Controls();
+        cameraTrans = cameraObject.GetComponent<Transform>();
+        cameraCam = cameraObject.GetComponent<Camera>();
     }
 
     void OnEnable()
@@ -53,16 +57,25 @@ public class PlayerMovement : MonoBehaviour
         // movement
         var moveVec = move.ReadValue<Vector2>();
         var moveDir = is3D ? new Vector3(moveVec.x, 0, moveVec.y) : (Vector3)moveVec; // swap between 2d or 3d coordinates depending on is3D
+        var scrollDelta = -Input.mouseScrollDelta.y;
+        var cameraSize = cameraCam.orthographicSize;
 
         transform.Translate(moveDir * dt * moveSpeed, Space.Self); // WASD for horizontal movement
-        transform.Translate(Vector3.up * intIs3D * -Input.mouseScrollDelta.y); // scroll for veritcal movement in 3D
+        transform.Translate(Vector3.up * intIs3D * scrollDelta); // scroll for veritcal movement in 3D
+
+        // scroll for zoom in 2D
+        cameraCam.orthographicSize = Math.Clamp(
+            cameraSize + scrollDelta * (1 - intIs3D),
+            zMin,
+            zMax
+        );
 
         // clamp location within the boundaries of the map
         var pos = transform.position;
         transform.position = new Vector3(
             Math.Clamp(pos.x, xMin, xMax),
             Math.Clamp(pos.y, yMin, yMax),
-            Math.Clamp(pos.z, zMin, zMax)
+            Math.Clamp(pos.z, zMin, zMax) - (100 * (1 - intIs3D)) // adjust clamping for zoom instead of position in 2D
         );
 
         // mouselook
