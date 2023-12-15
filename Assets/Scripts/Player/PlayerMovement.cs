@@ -55,9 +55,7 @@ public class PlayerMovement : MonoBehaviour
         var moveDir = is3D ? new Vector3(moveVec.x, 0, moveVec.y) : (Vector3)moveVec; // swap between 2d or 3d coordinates depending on is3D
 
         transform.Translate(moveDir * dt * moveSpeed, Space.Self); // WASD for horizontal movement
-        transform.Translate(
-            (Vector3.up * intIs3D + Vector3.back * (1 - intIs3D)) * -Input.mouseScrollDelta.y // scroll for veritcal movement
-        );
+        transform.Translate(Vector3.up * intIs3D * -Input.mouseScrollDelta.y); // scroll for veritcal movement in 3D
 
         // clamp location within the boundaries of the map
         var pos = transform.position;
