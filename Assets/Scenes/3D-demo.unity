@@ -15,9 +15,9 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.9009434, g: 0.9934222, b: 1, a: 1}
+  m_FogColor: {r: 1, g: 0.88235295, b: 0.7294118, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.006
+  m_FogDensity: 0.002
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -37835,8 +37835,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   is3D: 1
+  useLook: 0
   lookSpeed: 1
-  moveSpeed: 25
+  moveSpeed: 0
   xMin: 0
   xMax: 100
   yMin: 7
@@ -37927,14 +37928,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146626702}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50, y: 15, z: 5.5}
+  m_LocalRotation: {x: 0.0118101975, y: 0.41710204, z: -0.0054205973, w: 0.9087668}
+  m_LocalPosition: {x: 20.15, y: 15, z: 43.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 330585546}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 1.489, y: 49.308, z: 0}
 --- !u!114 &2146626708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38123,6 +38124,56 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: maxHaze
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: minHaze
+      value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: hazyFog.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: hazyFog.b
+      value: 0.7294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: hazyFog.g
+      value: 0.88235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: hazyFog.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: clearFog.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: clearFog.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: clearFog.g
+      value: 0.99215686
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862283585770928043, guid: 03d61a26a6e3ad9429938496e9f1afa1,
+        type: 3}
+      propertyPath: clearFog.r
+      value: 0.9019608
       objectReference: {fileID: 0}
     - target: {fileID: 8302391535754437352, guid: 03d61a26a6e3ad9429938496e9f1afa1,
         type: 3}

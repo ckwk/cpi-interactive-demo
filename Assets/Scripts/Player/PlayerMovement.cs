@@ -9,11 +9,12 @@ public class PlayerMovement : MonoBehaviour
     InputAction move;
 
     [SerializeField]
-    bool is3D;
+    bool is3D,
+        useLook;
 
     [SerializeField]
-    float lookSpeed = 3,
-        moveSpeed = 10,
+    float lookSpeed = 1,
+        moveSpeed = 25,
         xMin,
         xMax,
         yMin,
@@ -79,11 +80,13 @@ public class PlayerMovement : MonoBehaviour
         );
 
         // mouselook
+        if (!useLook)
+            return;
         rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * intIs3D; // adjusts rotation based on mouse movement when in 3D
         var camRotation = rotation * lookSpeed;
 
         cameraTrans.eulerAngles = new Vector2(Math.Clamp(camRotation.x, 0, 80), camRotation.y); // clamp camera rotation to not be crazy
-        transform.eulerAngles = new Vector2(0, rotation.y) * lookSpeed; // rotates the player object in accordance with horizontal mouse movement so that the collision box's angle isn't changing to help with collision
+        transform.eulerAngles = new Vector2(0, rotation.y) * lookSpeed; // rotates the player object in accordance with horizontal mouse movement so that the movement stays horizontal in 3d
     }
 
     int BoolToInt(bool toConvert) => toConvert == true ? 1 : 0;

@@ -14,7 +14,7 @@ Material:
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _VERTEXOFFSET_ON
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -43,7 +43,7 @@ Material:
     - _Float1: 2
     - _FresnelExp: 5
     - _FresnelExp1: 10
-    - _GradientPosition1: 1.1693549
+    - _GradientPosition1: 1.2903225
     - _GradientPosition2: 2.3790324
     - _GradientPosition3: 0.93
     - _LightColorIntensity: 0.68
@@ -73,13 +73,13 @@ Material:
     - _WavesSpeed: 4
     m_Colors:
     - _Color0: {r: 0.55294114, g: 0.7597304, b: 1, a: 1}
-    - _DepthGradient1: {r: 0.43904242, g: 0.8427246, b: 1, a: 1}
-    - _DepthGradient2: {r: 0, g: 0.54574716, b: 0.764151, a: 1}
-    - _DepthGradient3: {r: 0.06390353, g: 0.13321748, b: 0.3016518, a: 1}
+    - _DepthGradient1: {r: 0.43904096, g: 0.89023894, b: 1, a: 1}
+    - _DepthGradient2: {r: 0.2617816, g: 0.4467942, b: 0.5188676, a: 1}
+    - _DepthGradient3: {r: 0.063608654, g: 0.1328448, b: 0.30125865, a: 1}
     - _DepthGradient4: {r: 0.10164861, g: 0.10137052, b: 0.32075462, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0.44811308, g: 0.7287335, b: 1, a: 1}
+    - _FresnelColor: {r: 0.40783647, g: 0.56459695, b: 0.65882355, a: 1}
     - _FresnelColor1: {r: 0.6462264, g: 0.9230234, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
