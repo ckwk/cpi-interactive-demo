@@ -14,6 +14,9 @@ public class DebugUI : MonoBehaviour
     TMP_Text fpsCounter,
         frameTimeCounter;
 
+    [SerializeField]
+    bool startVisible;
+
     Controls controls;
     InputAction debugShowHideKey,
         debug2DKey,
@@ -22,6 +25,8 @@ public class DebugUI : MonoBehaviour
     void Awake()
     {
         controls = new Controls();
+        hidden = startVisible;
+        debugUIContainer.SetActive(hidden);
     }
 
     // setup event handlers
