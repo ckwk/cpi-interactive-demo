@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float hazeLevel;
 
-    float targetHaze;
-
     [SerializeField]
     Transform carContainer;
 
@@ -29,7 +27,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        targetHaze = maxHaze;
         foreach (Transform carLine in carContainer)
         {
             totalNumCars += carLine.childCount;
@@ -53,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
         var targetNumCars = Math.Clamp(
             Math.Ceiling(totalNumCars * (trafficLevel / 100f)),
-            10,
+            30,
             totalNumCars + 1
         );
         while (currentNumCars != targetNumCars)
@@ -62,6 +59,22 @@ public class GameManager : MonoBehaviour
             var carDelta = Math.Sign(targetNumCars - currentNumCars); // returns -1 or 1 to show we are removing or adding cars
             var enableCars = carDelta > 0; // gets whether we want to enable or disable cars
             var currentCarLine = carContainer.GetChild(rng.Next(carContainer.childCount)); // gets a random carLine transform
+            var firstCarActive = currentCarLine.GetChild(0).gameObject.activeSelf;
+            var lastCarActive = currentCarLine
+                .GetChild(currentCarLine.childCount - 1)
+                .gameObject.activeSelf;
+            while (
+                (firstCarActive == enableCars && enableCars == false)
+                || (lastCarActive == enableCars && enableCars == true)
+            )
+            {
+                currentCarLine = carContainer.GetChild(rng.Next(carContainer.childCount)); // gets a random carLine transform
+                firstCarActive = currentCarLine.GetChild(0).gameObject.activeSelf;
+                lastCarActive = currentCarLine
+                    .GetChild(currentCarLine.childCount - 1)
+                    .gameObject.activeSelf;
+            }
+
             var i = enableCars ? currentCarLine.childCount : 1; // determines the direction we enable / disbale cars
             var currentCar = currentCarLine.GetChild(currentCarLine.childCount - i).gameObject; // gets the current car based on above criteria, first if enabling and last if disabling
             while (currentCar.activeSelf == enableCars) // find a car that is not in the desired state
