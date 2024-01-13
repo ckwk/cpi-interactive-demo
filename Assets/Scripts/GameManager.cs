@@ -36,8 +36,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Cost / Profit Settings")]
     [SerializeField]
-    TMP_Text Cost,
-        Profit;
+    TMP_Text Cost;
+    TMP_Text Profit;
 
     [Range(0.00f, 10000000.00f)]
     [SerializeField]
