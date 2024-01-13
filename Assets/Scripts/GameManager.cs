@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 using TMPro;
+using System.Collections;
+using UnityEngine.Networking;
+using System.Collections.Generic;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,12 +41,20 @@ public class GameManager : MonoBehaviour
     [Header("Cost / Profit Settings")]
     [SerializeField]
     TMP_Text Cost;
+
+    [SerializeField]
     TMP_Text Profit;
 
     [Range(0.00f, 10000000.00f)]
     [SerializeField]
     float costLevel,
         profitLevel;
+
+    string apiUrl =
+        "https://raw.githubusercontent.com/ckwk/cpi-interactive-demo/main/Assets/TestAPI/test-data.tsv";
+    public List<string> spreadsheet;
+    int currentRowIndex = 1;
+    float deltaTimeCount;
 
     void Start()
     {
@@ -51,24 +63,36 @@ public class GameManager : MonoBehaviour
             totalNumCars += carLine.childCount;
         }
         currentNumCars = totalNumCars;
+
+        // TODO delete this to put in GoogleSheets API calls in Update when access is given
+        StartCoroutine(FetchAPI(apiUrl));
     }
 
     void Update()
     {
-        UpdateFog();
-        UpdateTraffic();
-        UpdateCost();
-        UpdateProfit();
+        deltaTimeCount += Time.deltaTime;
+
+        // TODO update this once we determine how to interact with GoogleSheets API
+        if (deltaTimeCount > 0.1f && currentRowIndex < spreadsheet.Count) // every tenth of a second
+        {
+            var currentRowArray = spreadsheet[currentRowIndex].Split('\t').ToList();
+            UpdateFog(float.Parse(currentRowArray[0]));
+            UpdateTraffic(float.Parse(currentRowArray[1]));
+            UpdateCost(float.Parse(currentRowArray[2]));
+            UpdateProfit(float.Parse(currentRowArray[3]));
+            deltaTimeCount = 0;
+            currentRowIndex++;
+        }
     }
 
-    void UpdateFog()
+    void UpdateFog(float hazeLevel)
     {
         Pollution.text = "Pollution Level: " + hazeLevel;
         RenderSettings.fogDensity = minHaze + (maxHaze * (hazeLevel / 100f));
         RenderSettings.fogColor = Color.Lerp(clearFog, hazyFog, Math.Clamp(hazeLevel / 50f, 0, 1));
     }
 
-    void UpdateTraffic()
+    void UpdateTraffic(float trafficLevel)
     {
         Traffic.text = "Traffic Level: " + trafficLevel;
         var targetNumCars = Math.Clamp(
@@ -109,13 +133,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void UpdateCost()
+    void UpdateCost(float costLevel)
     {
         Cost.text = "Costs: $" + costLevel;
     }
 
-    void UpdateProfit()
+    void UpdateProfit(float profitLevel)
     {
         Profit.text = "Profit: $" + profitLevel;
+    }
+
+    IEnumerator FetchAPI(string url)
+    {
+        using (UnityWebRequest apiRequest = UnityWebRequest.Get(apiUrl))
+        {
+            yield return apiRequest.SendWebRequest();
+            if (apiRequest.result != UnityWebRequest.Result.Success)
+                print(apiRequest.error);
+            else
+                spreadsheet = apiRequest.downloadHandler.text
+                    .Replace("\r\n", "\n")
+                    .Split('\n')
+                    .ToList();
+        }
     }
 }
