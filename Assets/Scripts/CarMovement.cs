@@ -23,6 +23,8 @@ public class CarMovement : MonoBehaviour
     int currentMovementPointIndex;
     List<int> movementPointsToWaitOn = new List<int>() { 0, 1, 4, 7, 8, 11 };
 
+    public bool justActivated = true;
+
     void Start()
     {
         waitTimer = additionalStartWaitTime;
@@ -45,6 +47,12 @@ public class CarMovement : MonoBehaviour
             return;
         }
 
+        if (Physics.OverlapSphere(transform.position, 0.8f).Length > 10 && justActivated)
+        {
+            return;
+        }
+        justActivated = false;
+
         var reachedWaitPoint = movementPointsToWaitOn.Contains(currentMovementPointIndex);
 
         if (
@@ -61,5 +69,10 @@ public class CarMovement : MonoBehaviour
         }
         transform.LookAt(currentMovementPoint);
         transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.Self);
+    }
+
+    void OnEnable()
+    {
+        justActivated = !justActivated;
     }
 }

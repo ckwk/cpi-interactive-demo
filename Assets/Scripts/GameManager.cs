@@ -1,10 +1,11 @@
 using System;
-using UnityEngine;
-using TMPro;
 using System.Collections;
-using UnityEngine.Networking;
 using System.Collections.Generic;
 using System.Linq;
+
+using UnityEngine;
+using UnityEngine.Networking;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
     TMP_Text Pollution;
 
     [SerializeField]
-    Color clearFog,
+    UnityEngine.Color clearFog,
         hazyFog;
 
     [SerializeField]
@@ -51,8 +52,8 @@ public class GameManager : MonoBehaviour
     float costLevel,
         profitLevel;
 
-    string apiUrl =
-        "https://raw.githubusercontent.com/ckwk/cpi-interactive-demo/main/Assets/TestAPI/test-data.tsv";
+    string spreadsheetId = "1bGhyfu0Cbtb1pJsLxOErsagAZg1doQ6vQzXmAia2OQI";
+
     public List<string> spreadsheet;
     int currentRowIndex = 1;
     float deltaTimeCount;
@@ -71,7 +72,11 @@ public class GameManager : MonoBehaviour
         currentNumCars = totalNumCars;
 
         // TODO delete this to put in GoogleSheets API calls in Update when access is given
-        StartCoroutine(FetchAPI(apiUrl));
+        StartCoroutine(
+            FetchAPI(
+                "https://docs.google.com/spreadsheets/d/" + spreadsheetId + "/export?format=tsv"
+            )
+        );
     }
 
     void Update()
@@ -95,7 +100,11 @@ public class GameManager : MonoBehaviour
     {
         Pollution.text = "Pollution Level: " + hazeLevel;
         RenderSettings.fogDensity = minHaze + (maxHaze * (hazeLevel / 100f));
-        RenderSettings.fogColor = Color.Lerp(clearFog, hazyFog, Math.Clamp(hazeLevel / 50f, 0, 1));
+        RenderSettings.fogColor = UnityEngine.Color.Lerp(
+            clearFog,
+            hazyFog,
+            Math.Clamp(hazeLevel / 50f, 0, 1)
+        );
     }
 
     void UpdateTraffic(float trafficLevel)
@@ -154,7 +163,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator FetchAPI(string url)
     {
-        using (UnityWebRequest apiRequest = UnityWebRequest.Get(apiUrl))
+        using (UnityWebRequest apiRequest = UnityWebRequest.Get(url))
         {
             yield return apiRequest.SendWebRequest();
             if (apiRequest.result != UnityWebRequest.Result.Success)
