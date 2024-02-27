@@ -52,7 +52,8 @@ public class GameManager : MonoBehaviour
     float costLevel,
         profitLevel;
 
-    string spreadsheetId = "1bGhyfu0Cbtb1pJsLxOErsagAZg1doQ6vQzXmAia2OQI";
+    string apiUrlPrefix = "https://docs.google.com/spreadsheets/d/",
+        spreadsheetId = "1bGhyfu0Cbtb1pJsLxOErsagAZg1doQ6vQzXmAia2OQI";
 
     public List<string> spreadsheet;
     int currentRowIndex = 1;
@@ -72,11 +73,7 @@ public class GameManager : MonoBehaviour
         currentNumCars = totalNumCars;
 
         // TODO delete this to put in GoogleSheets API calls in Update when access is given
-        StartCoroutine(
-            FetchAPI(
-                "https://docs.google.com/spreadsheets/d/" + spreadsheetId + "/export?format=tsv"
-            )
-        );
+        StartCoroutine(FetchAPI(apiUrlPrefix + spreadsheetId + "/export?format=tsv"));
     }
 
     void Update()
@@ -131,9 +128,10 @@ public class GameManager : MonoBehaviour
                 currentCarLine = currentCarRectangle.GetChild(
                     rng.Next(1, currentCarRectangle.childCount)
                 ); // gets a random carLine transform
-                firstCarActive = currentCarLine.GetChild(0).gameObject.activeSelf;
+                firstCarActive = currentCarLine.GetChild(0).GetChild(0).gameObject.activeSelf;
                 lastCarActive = currentCarLine
                     .GetChild(currentCarLine.childCount - 1)
+                    .GetChild(0)
                     .gameObject.activeSelf;
             } while (
                 (firstCarActive == enableCars && !enableCars)
@@ -141,13 +139,22 @@ public class GameManager : MonoBehaviour
             );
             var i = enableCars ? currentCarLine.childCount : 1; // determines the direction we enable / disbale cars
             var currentCar = currentCarLine.GetChild(currentCarLine.childCount - i).gameObject; // gets the current car based on above criteria, first if enabling and last if disabling
-            while (currentCar.activeSelf == enableCars) // find a car that is not in the desired state
+            while (currentCar.transform.GetChild(0).gameObject.activeSelf == enableCars) // find a car that is not in the desired state
             {
                 i -= carDelta;
                 currentCar = currentCarLine.GetChild(currentCarLine.childCount - i).gameObject;
             }
-            currentCar.SetActive(enableCars); // enable / disable the found car
+            SetVisibility(currentCar, enableCars); // enable / disable the found car
             currentNumCars += carDelta; // increment the number of cars visible
+        }
+    }
+
+    void SetVisibility(GameObject car, bool visible)
+    {
+        car.GetComponent<MeshRenderer>().enabled = visible;
+        foreach (Transform wheel in car.transform)
+        {
+            wheel.gameObject.SetActive(visible);
         }
     }
 
